@@ -39,15 +39,15 @@ double xyrec(float a,int b)
 }
 double xyitr(float a,int b)
 {
-	double prod=1;int c=(b>0)?b:-b;
+	double result=1;int c=(b>0)?b:-b;
 	for(int i=1;i<=c;i++)
 	{
 		if(b>0)
-			prod*=a;
+			result*=a;
 		else
-			prod/=a;
+			result/=a;
 	}
-	return prod;
+	return result;
 }
 int factrec(int num)
 {
@@ -61,15 +61,15 @@ int factitr(int num)
 {
 	if(num<0)
 		throw 1;
-	int prod=1;
+	int fact=1;
 	while(num>=1)
-		prod*=num--;
-	return prod;
+		fact*=num--;
+	return fact;
 }
 void fibitr(int num)
 {
 	if(num<0)
-		throw 3;
+		throw 1;
 	int a=0,b=1,c,i;
 	if(num==1)
 		cout<<"\n"<<a;
@@ -83,6 +83,8 @@ void fibitr(int num)
 }
 int fibrec(int num)
 {
+	if(num<0)
+		throw 1;
 	if(num==0)
 		return 0;
 	else if(num==1)
@@ -93,72 +95,68 @@ int fibrec(int num)
 int main()
 {
 	int n,r;
-	cout<<"\n1. Fibonacci Series\n2. x^y\n3. Factorial\n4. GCD\n";
-	cin>>n;
-	if(n==2)
-	cout<<"\nUse recurion if you want to enter negative exponent\n";
-	cout<<"\n1. Recursion \n2. Itreation\n";
-	cin>>r;
-	try
+	char ch;
+	do
 	{
-	if(n==1)
-	{
-		int num;
-		cout<<"Enter the number of terms\n";
-		cin>>num;
-		if(r==1)
+		cout<<"\n1. Fibonacci Series\n2. x^y\n3. Factorial\n4. GCD\n";
+		cin>>n;
+		cout<<"\n1. Recursive Method\n2. Itreative Method\n";
+		cin>>r;
+		try
 		{
-			for(int c=0;c<num;c++)
+			if(n==1)
 			{
-				cout<<"\n"<<fibrec(c);
+				int num;
+				cout<<"Enter the number of terms\n";
+				cin>>num;
+				if(num<0)
+					throw 1;
+				if(r==1)
+					for(int c=0;c<num;c++)
+						cout<<"\n"<<fibrec(c);
+				else
+					fibitr(num);
 			}
+			else if(n==2)
+			{
+				float base;int exp;
+				cout<<"\nEnter base\n";
+				cin>>base;
+				cout<<"\nEnter exponent\n";
+				cin>>exp;
+				if(r==1)
+					cout<<"\n"<<xyrec(base,exp);
+				else
+					cout<<"\n"<<xyitr(base,exp);
+			}
+			else if(n==3)
+			{	
+				int num;
+				cout<<"\nEnter a positive number to find its factorial\n";cin>>num;
+				if(r==1)
+					cout<<"\nFactorial = "<<factrec(num);
+				else
+					cout<<"\nFactorial = "<<factitr(num);
+			}
+			else if(n==4)
+			{	
+				int num1,num2;
+				cout<<"\nEnter two numbers\n";
+				cin>>num1>>num2;
+				if(r==1)
+					cout<<"\nGCD is "<<gcdrec(num1,num2);
+				else
+					cout<<"\nGCD is "<<gcditr(num1,num2);
+			}
+			else
+				cout<<"\nInvalid choice\nProgram Terminated\n";
 		}
-		else
-		fibitr(num);
-	}
-	else if(n==2)
-	{
-		float base;int exp;
-		cout<<"\nEnter base\n";
-		cin>>base;
-		if(r==1)
+		catch(int i)
 		{
-			cout<<"\nEnter exponent\n";
-			cin>>exp;
-			cout<<"\n"<<xyrec(base,exp);
+			cout<<"\nNot applicable for negative numbers\n";
 		}
-		else
-		{
-			cout<<"\nEnter exponent\n";
-			cin>>exp;
-			cout<<"\n"<<xyitr(base,exp);
-		}
-	}
-	if(n==3)
-	{
-		int num;
-		cout<<"\nEnter a positive number to find its factorial\n";cin>>num;
-		if(r==1)
-		{
-			cout<<"\nFactorial = "<<factrec(num);
-		}
-		else
-			cout<<"\nFactorial = "<<factitr(num);
-	}
-	if(n==4)
-	{
-		int num1,num2;
-		cout<<"\nEnter two numbers\n";
-		cin>>num1>>num2;
-		if(r==1)
-			cout<<"\nGCD is "<<gcdrec(num1,num2);
-		else
-			cout<<"\nGCD is "<<gcditr(num1,num2);
-	}
-	}
-	catch(int i)
-	{
-		cout<<"\nInvalid for negative numbers\n";
-	}
+		cout<<"\nEnter any character to continue\nEnter 0 to terminate\n";
+		cin>>ch;
+	}while (ch!='0');
 	return 0;
 }
